@@ -1,5 +1,5 @@
 ---
-name: Go
+name: CI
 on:
   push:
     branches:
