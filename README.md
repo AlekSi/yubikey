@@ -4,3 +4,5 @@
 [![CI](https://github.com/AlekSi/yubikey/actions/workflows/ci.yml/badge.svg)](https://github.com/AlekSi/yubikey/actions/workflows/ci.yml)
 
 Go code for working with Yubico keys.
+
+See also: https://github.com/AlekSi/modhex
