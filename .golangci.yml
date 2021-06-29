@@ -1,0 +1,53 @@
+---
+# Almost all linters; some of them are optional.
+
+run:
+  modules-download-mode: readonly
+  issues-exit-code: 0
+
+linters-settings:
+  cyclop:
+    max-complexity: 30
+
+  funlen:
+    lines: 110
+    statements: 70
+
+  gocognit:
+    min-complexity: 35
+
+  goimports:
+    local-prefixes: github.com/AlekSi/yubikey
+
+  unused:
+    check-exported: false
+
+  unparam:
+    check-exported: true
+
+linters:
+  enable-all: true
+  disable:
+    # deprecated
+    - golint
+    - interfacer
+    - maligned
+    - scopelint
+
+    # bare errors are not always bad
+    - errorlint
+    - goerr113
+    - wrapcheck
+
+    # not useful
+    - exhaustivestruct
+    - forbidigo
+    - gochecknoglobals
+    - gomnd
+    - lll
+    - nlreturn
+    - testpackage
+    - wsl
+
+issues:
+  exclude-use-default: false

@@ -1,0 +1,23 @@
+---
+# The most valuable linters; they are required to pass for PR to be merged.
+
+run:
+  modules-download-mode: readonly
+  issues-exit-code: 1
+
+linters-settings:
+  goimports:
+    local-prefixes: github.com/AlekSi/yubikey
+
+linters:
+  disable-all: true
+  enable:
+    - exhaustive
+    - goimports
+    - govet
+    - ineffassign
+    - staticcheck
+    - thelper
+
+issues:
+  exclude-use-default: false
