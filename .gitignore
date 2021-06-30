@@ -1,7 +1,9 @@
 /.idea/
 /.vscode/
 
+/bin/
+
 .env
 .envrc
 
-/bin/
+*.json

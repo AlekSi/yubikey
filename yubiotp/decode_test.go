@@ -5,34 +5,50 @@
 package yubiotp
 
 import (
-	"math/big"
+	"encoding/json"
 	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
+type testdata struct {
+	OTP       string
+	SecretKey string
+
+	PublicIDModHex string
+	PrivateIDHex   string
+}
+
 func TestDecode(t *testing.T) {
 	t.Parallel()
 
-	otp := "vvfbhrhghngettteklnejthbvcehettgdcntrgddknvr"
-	secretKey := os.Getenv("TEST_YUBIKEY_DECODE_SECRET_KEY")
-	if secretKey == "" {
-		t.Skip("TEST_YUBIKEY_DECODE_SECRET_KEY is not set, skipping.")
-	}
-
-	actual, err := Decode(otp, secretKey)
+	pattern := filepath.Join("testdata", "*.json")
+	files, err := filepath.Glob(pattern)
 	require.NoError(t, err)
 
-	publicIDDec, ok := new(big.Int).SetString("280656456543059", 10)
-	require.True(t, ok)
-
-	expected := &Info{
-		PublicID:    "vvfbhrhghnge",
-		PublicIDBin: []byte{0xff, 0x41, 0x6c, 0x65, 0x6b, 0x53},
-		PublicIDHex: "ff416c656b53",
-		PublicIDDec: publicIDDec,
+	if len(files) == 0 {
+		t.Skipf("no files matching %s, skipping", pattern)
 	}
-	assert.Equal(t, expected, actual)
+
+	for _, file := range files {
+		file := file
+		t.Run(file, func(t *testing.T) {
+			t.Parallel()
+
+			b, err := os.ReadFile(file)
+			require.NoError(t, err)
+
+			var expected testdata
+			err = json.Unmarshal(b, &expected)
+			require.NoError(t, err)
+
+			actual, err := Decode(expected.OTP, expected.SecretKey)
+			require.NoError(t, err)
+			assert.Equal(t, expected.PublicIDModHex, actual.PublicIDModHex())
+			assert.Equal(t, expected.PrivateIDHex, actual.PrivateIDHex())
+		})
+	}
 }
