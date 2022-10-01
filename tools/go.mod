@@ -7,5 +7,5 @@ require (
 	github.com/quasilyte/go-consistent v0.0.0-20200404105227-766526bf1e96
 	github.com/reviewdog/reviewdog v0.12.0
 	golang.org/x/perf v0.0.0-20210220033136-40a54f11e909
-	mvdan.cc/gofumpt v0.1.1
+	mvdan.cc/gofumpt v0.4.0 // indirect
 )
